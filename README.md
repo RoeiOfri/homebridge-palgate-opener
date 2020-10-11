@@ -44,3 +44,5 @@ No, if you reopen the app you will be asked to re-authorize therefore the token 
 ### I re-signed to PalGate app and now I can't control the gate via HomeKit
 Just re-run the tool, update the config file with the new token and you're good to go!
 
+Like my work? consider buying me a coffee ;)
+https://www.buymeacoffee.com/roeio
