@@ -1,0 +1,18 @@
+{
+    "pluginAlias": "PalGateOpener",
+    "pluginType": "accessory",
+    "singular": false,
+    "headerDisplay": "Homebridge plugin for PalGate app",
+    "footerDisplay": "Created by Roei Ofri",
+    "schema": {
+        "type": "object",
+        "properties": {
+            "name": {
+                "title": "PalGateOpener",
+                "type": "string",
+                "default": "PalGateOpener",
+                "required": false
+            }
+        }
+    }
+  } 
