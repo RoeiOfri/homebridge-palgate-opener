@@ -11,6 +11,16 @@ Please note 2: Tool was written in Py2.7, please make sure you run it on py2.7.
 From shell run:
 `python extract_token.py` and follow on-screen instructions.
 
+# HomeBridge configuration file
+```
+        {
+            "accessory": "PalGateOpener",
+            "name": "<chosen name>",
+            "deviceId": "<device_id",
+            "token": "<token>"
+        },
+```
+
 # Attention!
 Obtaining token via the tool will cause Pal Gate token to be revoked hence it will no longer work for your
 phone number until you will re-sign to the Pal Gate app which will cause the HomeKit token to be revoked.
