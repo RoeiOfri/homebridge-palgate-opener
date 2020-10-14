@@ -27,13 +27,13 @@ From shell run:
 ]
 ```
 # Explination
-| key | Description |
-| --- | --- |
-| `accessory` | Must be PalGateOpener |
-| `name` | Chosen name to populate in HomeKit |
-| `deviceId` | Gate ID extracted from CLI tool |
-| `token` | Token extracted from CLI tool |
-| `accessoryType` | switch/garageDoor* |
+| key | Mandatory/Optional |Description |
+| --- | --- | --- |
+| `accessory` | Yes |Must be PalGateOpener |
+| `name` |Yes |Chosen name to populate in HomeKit |
+| `deviceId`|Yes | Gate ID extracted from CLI tool |
+| `token` |Yes| Token extracted from CLI tool |
+| `accessoryType`|No - Default usage: switch | switch/garageDoor* |
 ### Please note:
 1. The default accessoryType is set to `switch`, if using `garageDoor` HomeKit with location service to open the gate
 automaticlly when arriving home will have to be initiated by user via push notification and his approval for the automation to run.
@@ -53,14 +53,15 @@ phone number until you will re-sign to the Pal Gate app which will cause the Hom
 Currently no.
 ### Will I still be able to use the PalGate app on my phone?
 No, if you reopen the app you will be asked to re-authorize therefore the token obtained via CLI will get revoked and HomeKit will not be able communicate with the gate any more.
-### I re-signed to PalGate app and now I can't control the gate via HomeKit
+### I re-signed to PalGate app and now I can't control the gate via HomeKit, what do I do?
 Just re-run the tool, update the config file with the new token and you're good to go!
-
-Like my work? consider buying me a coffee ;)
-https://www.buymeacoffee.com/roeio
 
 # Disclaimer
 This plugin was created for my own personal use. I'm not affiliate by the company nor this plugin.
 This plugin is self developed and is not related to Pal Gate Systems in any way.
 I'm not responsible for any damage and/or data loss and/or any security breach etc etc caused by using this plugin.
 Please use at your own risk and on your own responsibility.
+
+
+# Like my work? consider buying me a coffee ;)
+# https://www.buymeacoffee.com/roeio
