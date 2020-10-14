@@ -31,6 +31,16 @@ From shell run:
 | `name` | Chosen name to populate in HomeKit |
 | `deviceId` | Gate ID extracted from CLI tool |
 | `token` | Token extracted from CLI tool |
+| `accessoryType` | switch/garageDoor* |
+### Please note:
+1. The default accessoryType is set to `switch`, if using `garageDoor` HomeKit with location service to open the gate
+automaticlly when arriving home will have to be initiated by user via push notification and his approval for the automation to run.
+This is a security feature by Apple.
+If you wish to "bypass" it please set the `accessortyType` as `switch`.
+
+2. When setting the `accessoryType` as `garageDoor` automation will not work independetly (as mentioned above) but you will loose the ability
+to see the ability to use the Garage Door icon in Apple CarPlay.
+If you wish that the gate will open automaticlly by setting location service automation please use `switch` as `accessoryType` value.
 
 # Attention!
 Obtaining token via the tool will cause Pal Gate token to be revoked hence it will no longer work for your
