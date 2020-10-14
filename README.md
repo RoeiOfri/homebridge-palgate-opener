@@ -8,6 +8,7 @@ Before installing the homebridge plugin you must extract the device ID to reciev
 *Please note #1:* this tool was tested on MAC but it should work on any distribution.
 
 *Please note #2:* Tool was written in Python 3.x, please make sure you run it with Python 3.x.
+
 *Please note #3:* Make sure requests module is install in you venv/system*
 
 From shell run:
