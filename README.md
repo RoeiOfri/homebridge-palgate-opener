@@ -5,10 +5,10 @@ This plugin enables connection between Pal Gate App Controled systems and Apple 
 Before installing the homebridge plugin you must extract the device ID to recieve a token.
 
 # Extracting device ID and token
-Please note: this tool was tested on MAC but it should work on any distribution.
+*Please note #1:* this tool was tested on MAC but it should work on any distribution.
 
-
-Please note 2: Tool was written in Python 2.7, please make sure you run it on Python 2.7.
+*Please note #2:* Tool was written in Python 3.x, please make sure you run it with Python 3.x.
+*Please note #3:* Make sure requests module is install in you venv/system*
 
 From shell run:
 `python extract_token.py` and follow on-screen instructions.
@@ -57,3 +57,9 @@ Just re-run the tool, update the config file with the new token and you're good 
 
 Like my work? consider buying me a coffee ;)
 https://www.buymeacoffee.com/roeio
+
+# Disclaimer
+This plugin was created for my own personal use. I'm not affiliate by the company nor this plugin.
+This plugin is self developed and is not related to Pal Gate Systems in any way.
+I'm not responsible for any damage and/or data loss and/or any security breach etc etc caused by using this plugin.
+Please use at your own risk and on your own responsibility.
