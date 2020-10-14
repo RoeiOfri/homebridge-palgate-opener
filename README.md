@@ -30,7 +30,7 @@ From shell run:
 | key | Mandatory/Optional |Description |
 | --- | --- | --- |
 | `accessory` | Yes |Must be PalGateOpener |
-| `name` |Yes |Chosen name to populate in HomeKit |
+| `name` |Yes |Chosen name to populate to HomeKit |
 | `deviceId`|Yes | Gate ID extracted from CLI tool |
 | `token` |Yes| Token extracted from CLI tool |
 | `accessoryType`|No - Default usage: switch | switch/garageDoor* |
