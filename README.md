@@ -19,7 +19,8 @@ From shell run:
         {
             "accessory": "PalGateOpener",
             "name": "<chosen name>",
-            "deviceId": "<device_id",
+            "accessoryType": "<switch/garageDoor>"
+            "deviceId": "<device_id>",
             "token": "<token>"
         },
 ]
