@@ -6,7 +6,7 @@ import constants
 class PalGateInfoExtractor:
 
     def __init__(self):
-        self.phone_number = str(raw_input('Please type your phone number, e.g 054123412345: '))
+        self.phone_number = str(input('Please type your phone number, e.g 054123412345: '))
         self.phone_number = self.phone_number[1:]
         headers = {'Content-Type': 'application/json'}
         self.sms_headers = {'x-bt-app-token': constants.SMS_TOKEN}
@@ -36,36 +36,36 @@ class PalGateInfoExtractor:
         # Extract device ID (gate ID)
         res = self.client.get(url=constants.DEVICE_ADDR, headers={'x-bt-user-token': token})
         self._validate_res(res)
-        device_id = [device['id'] for device in res.json()['devices']]
+        device_id = [device['id'] for device in res.json()['devices']][0]
         if len(device_id) > 1:
-            print 'Multiple gate controls not yet supported.'
+            print('Multiple gate controls not yet supported.')
         else:
-            self.device_id = device
-        print('This is your device ID: {}'.format(device_id[0]))
+            self.device_id = device_id
+        print('This is your device ID: {}'.format(device_id))
         self.final()
 
     def final(self):
-        print "--------------------------------------------------------------"
-        print "          This is the extracted information:                  "
-        print "       Please save it for HomeBridge config usage             "
-        print "       Any issues? please open a ticket on github             "
-        print " https://github.com/RoeiOfri/homebridge-palgate-opener/issues "
-        print "                                                              "
-        print "--------------------------------------------------------------"
-        print "Disclaimer: this tool and the author are not responsible"
-        print "for any issues/damage etc that might occur due to usage "
-        print "of this plugin. this plugin was written for teaching purposes only."
-        print "This tool and plugin are free and will always be free."
-        print "If you love this plugin and this tool and want to show your appreciation"
-        print "please consider buying me a coffee :)"
-        print ""
-        print "https://www.buymeacoffee.com/roeio                               "
-        print "-----------------------------------------------------------------"
-        print "Device ID: {}".format(self.device_id)
-        print "Token: {}".format(self.token)
+        print("--------------------------------------------------------------")
+        print("          This is the extracted information:                  ")
+        print("       Please save it for HomeBridge config usage             ")
+        print("       Any issues? please open a ticket on github             ")
+        print(" https://github.com/RoeiOfri/homebridge-palgate-opener/issues ")
+        print("                                                              ")
+        print("--------------------------------------------------------------")
+        print("Disclaimer: this tool and the author are not responsible")
+        print("for any issues/damage etc that might occur due to usage ")
+        print("of this plugin. this plugin was written for teaching purposes only.")
+        print("This tool and plugin are free and will always be free.")
+        print("If you love this plugin and this tool and want to show your appreciation")
+        print("please consider buying me a coffee :)")
+        print("")
+        print("https://www.buymeacoffee.com/roeio                               ")
+        print("-----------------------------------------------------------------")
+        print("Device ID: {}".format(self.device_id))
+        print("Token: {}".format(self.token))
 
     def _validate_res(self, res):
-        print res.json()['msg']
+        print(res.json()['msg'])
         assert res.json()['status'] == 'ok', res.json()
 
 

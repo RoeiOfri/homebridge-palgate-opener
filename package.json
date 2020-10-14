@@ -1,10 +1,10 @@
 {
   "name": "homebridge-palgate-opener",
   "description": "Homebridge plugin for PalGate app",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "repository": {
     "type": "git",
-    "url": "https://github.com/RoeiOfri/homebridge-palgate-opener"
+    "url": "git+https://github.com/RoeiOfri/homebridge-palgate-opener.git"
   },
   "license": "MIT",
   "preferGlobal": true,
@@ -23,5 +23,12 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Roei Ofri"
-} 
+  "author": "Roei Ofri",
+  "bugs": {
+    "url": "https://github.com/RoeiOfri/homebridge-palgate-opener/issues"
+  },
+  "homepage": "https://github.com/RoeiOfri/homebridge-palgate-opener#readme",
+  "directories": {
+    "lib": "lib"
+  }
+}
