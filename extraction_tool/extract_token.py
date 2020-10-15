@@ -36,12 +36,8 @@ class PalGateInfoExtractor:
         # Extract device ID (gate ID)
         res = self.client.get(url=constants.DEVICE_ADDR, headers={'x-bt-user-token': token})
         self._validate_res(res)
-        device_id = [device['id'] for device in res.json()['devices']][0]
-        if len(device_id) > 1:
-            print('Multiple gate controls not yet supported.')
-        else:
-            self.device_id = device_id
-        print('This is your device ID: {}'.format(device_id))
+        device_id = res.json()['devices']
+        print('This is your device ID(s): {}'.format(device_id))
         self.final()
 
     def final(self):
