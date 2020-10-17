@@ -23,7 +23,7 @@ From shell run:
             "accessoryType": "<switch/garageDoor>"
             "deviceId": "<device_id>",
             "token": "<token>"
-        },
+        }
 ]
 ```
 # Explination
