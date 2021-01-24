@@ -53,12 +53,12 @@ to see the ability to use the Garage Door icon in Apple CarPlay.
 If you wish that the gate will open automaticlly by setting location service automation please use `switch` as `accessoryType` value.
 
 # Attention!
-Obtaining token via the tool will cause Pal Gate token to be revoked hence it will no longer work for your
-phone number until you will re-sign to the Pal Gate app which will cause the HomeKit token to be revoked.
+Obtaining token via the tool will cause Pal Gate phone APP token to be revoked hence it will no longer work for your
+phone number (using the app) until you will re-sign to the Pal Gate app which will cause the HomeKit token to be revoked (thus HomeKit plugin will not work).
 
 # FAQ
 ### Can I control more than one Pal Gate barriers?
-Currently no.
+Yes you can! just insert the block more than once with different name, token and deviceID and it should work just fine.
 ### Will I still be able to use the PalGate app on my phone?
 No, if you reopen the app you will be asked to re-authorize therefore the token obtained via CLI will get revoked and HomeKit will not be able communicate with the gate any more.
 ### I re-signed to PalGate app and now I can't control the gate via HomeKit, what do I do?
