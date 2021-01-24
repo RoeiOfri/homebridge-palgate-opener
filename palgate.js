@@ -57,29 +57,29 @@ class PalGateOpener {
 
   handleCurrentDoorStateGet(callback) {
     this.log.info('Triggered GET Current DoorState');
-    var currentValue = Characteristic.CurrentDoorState.CLOSED
+    var currentValue = this.api.hap.Characteristic.CurrentDoorState.CLOSED
     callback(null, currentValue);
   }
 
   handleTargetDoorStateGet(callback) {
     this.log.info('Triggered GET Target DoorState');
-    var targetDoorState = Characteristic.CurrentDoorState.CLOSED
+    var targetDoorState = this.api.hap.Characteristic.CurrentDoorState.CLOSED
     callback(null, targetDoorState);
   }
 
    // Handle request to open/close door
   handleTargetDoorStateSet(value, callback) {
-    if (value == Characteristic.TargetDoorState.OPEN) {
+    if (value == this.api.hap.Characteristic.TargetDoorState.OPEN) {
         var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
         var xhr = new XMLHttpRequest();
         xhr.open('get', this.httpAddress);
         xhr.setRequestHeader('x-bt-user-token', this.token);
         xhr.send();
         this.log.debug('Gate opened');
-        this.service.setCharacteristic(Characteristic.CurrentDoorState, Characteristic.CurrentDoorState.OPEN)
+        this.service.setCharacteristic(this.Characteristic.CurrentDoorState, this.api.hap.Characteristic.CurrentDoorState.OPEN)
     } else if (value == Characteristic.CurrentDoorState.CLOSED) {
         this.log.debug('Closing gate...')
-        this.service.setCharacteristic(Characteristic.CurrentDoorState, Characteristic.CurrentDoorState.CLOSED);
+        this.service.setCharacteristic(this.Characteristic.CurrentDoorState, this.api.hap.Characteristic.CurrentDoorState.CLOSED);
     }
     callback(null)
   }
@@ -100,4 +100,3 @@ class PalGateOpener {
       callback(null);
     }
 }
-
