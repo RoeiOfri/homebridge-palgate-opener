@@ -20,10 +20,17 @@ From shell run:
         {
             "accessory": "PalGateOpener",
             "name": "<chosen name>",
-            "accessoryType": "<switch/garageDoor>"
+            "accessoryType": "<garageDoor>"
             "deviceId": "<device_id>",
             "token": "<token>"
         },
+        {
+            "accessory": "PalGateOpener",
+            "name": "<choosen name>",
+            "accessoryType": "<switch>"
+            "deviceId": "<device_id>",
+            "token": "<token>"
+        }
 ]
 ```
 # Explination
@@ -39,6 +46,7 @@ From shell run:
 automaticlly when arriving home will have to be initiated by user via push notification and his approval for the automation to run.
 This is a security feature by Apple.
 If you wish to "bypass" it please set the `accessortyType` as `switch`.
+2. You CAN duplicate the accessory so you will have one button as GarageDoor button and you will have the button also in your Apple CarPlay and a switch for the automation operation (works great BTW :))
 
 2. When setting the `accessoryType` as `garageDoor` automation will not work independetly (as mentioned above) but you will loose the ability
 to see the ability to use the Garage Door icon in Apple CarPlay.
