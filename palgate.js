@@ -77,7 +77,7 @@ class PalGateOpener {
         xhr.send();
         this.log.debug('Gate opened');
         this.service.setCharacteristic(this.Characteristic.CurrentDoorState, this.api.hap.Characteristic.CurrentDoorState.OPEN)
-    } else if (value == Characteristic.CurrentDoorState.CLOSED) {
+    } else if (value == this.api.hap.Characteristic.CurrentDoorState.CLOSED) {
         this.log.debug('Closing gate...')
         this.service.setCharacteristic(this.Characteristic.CurrentDoorState, this.api.hap.Characteristic.CurrentDoorState.CLOSED);
     }
