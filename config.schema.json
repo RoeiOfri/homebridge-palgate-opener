@@ -1,29 +1,38 @@
 {
-    "pluginAlias": "PalGateOpener",
-    "pluginType": "accessory",
-    "singular": false,
-    "headerDisplay": "Homebridge plugin for PalGate app",
-    "footerDisplay": "Created by Roei Ofri",
-    "schema": {
-        "type": "object",
-        "properties": {
-            "name": {
-                "title": "PalGateOpener",
-                "type": "string",
-                "default": "PalGateOpener",
-                "required": false
-            },
-            "accessoryType": {
-                "title": "Accessory Type",
-                "description": "Accessory type",
-                "type": "string",
-                "default": "switch",
-                "required": false,
-                "oneOf": [
-                  { "title": "Switch", "enum": ["switch"] },
-                  { "title": "GaradgeDoor", "enum": ["garagedoor"] },
-                ]
-            }
-        }
-    }
-  } 
+	"pluginAlias": "PalGateOpener",
+	"pluginType": "accessory",
+	"singular": false,
+	"headerDisplay": "Gate Opener for homebridge for PalGate APP users",
+	"footerDisplay": "Created by @roeio",
+	"schema": {
+		"type": "object",
+		"properties": {
+			"deviceId": {
+				"title": "Gate ID",
+				"description": "Please use the extraction tool to extract the gate ID and paste it here",
+				"type": "string",
+				"required": true
+			},
+			"token": {
+				"title": "Token",
+				"description": "Please use the extraction tool to extract the gate TOKEN and paste it here",
+				"type": "string",
+				"required": true
+			},
+			"accessoryType": {
+				"title": "Accessory Type",
+				"description": "Choose one of the options below",
+				"oneOf": [{
+						"title": "Garage Door",
+						"enum": ["garageDoor"]
+					},
+					{
+						"title": "Switch",
+						"enum": ["switch"]
+					}
+				],
+				"required": true
+			}
+		}
+	}
+}
