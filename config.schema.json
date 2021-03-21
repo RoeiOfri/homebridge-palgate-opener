@@ -21,7 +21,10 @@
 			},
 			"accessoryType": {
 				"title": "Accessory Type",
-				"description": "Choose one of the options below",
+				"description": "How do you wish to represent the button in HomeKit? default: garageDoor",
+				"type": "string",
+				"default": "garageDoor",
+				"required": false,
 				"oneOf": [{
 						"title": "Garage Door",
 						"enum": ["garageDoor"]
@@ -30,8 +33,14 @@
 						"title": "Switch",
 						"enum": ["switch"]
 					}
-				],
-				"required": true
+				]
+			},
+			"name": {
+				"title": "Gate name, e.g HomeGate",
+				"description": "Please provide a name to your gate, default: HomeGate",
+				"type": "string",
+				"default": "HomeGate",
+				"required": false
 			}
 		}
 	}
