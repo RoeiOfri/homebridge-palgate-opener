@@ -14,7 +14,14 @@ Before installing the homebridge plugin you must extract the device ID to reciev
 From shell run:
 `python extract_token.py` and follow on-screen instructions.
 
-# HomeBridge config file define
+# Plugin-in configuration
+
+## Configure plugin via UI
+1. Open your HomeBridge UI and navigate to "Plugins" tab.
+2. Locate the PalGateOpener plugin and click on "Settings".
+3. Follow on-screen instructions, please do so *after* extracting the gate-id and token using the extraction tool.
+
+## Manual configuration (configuration.yaml file)
 ```
 "accessories": [
         {
