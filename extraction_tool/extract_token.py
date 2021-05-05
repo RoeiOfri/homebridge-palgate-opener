@@ -1,7 +1,19 @@
+#!/usr/bin/env python3
+
+########################################################
+#            PalGate Token Extraction Tool             #
+########################################################
+#                                                      #
+# Like my work? please consider buying me a coffee :)  #
+# https://paypal.me/roeio                              #
+# Written by Roei Ofri                                 #
+########################################################
+
 import requests
 
 import constants
 
+__author__ = "Roei Ofri"
 
 class PalGateInfoExtractor:
 

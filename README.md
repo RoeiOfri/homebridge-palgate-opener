@@ -4,15 +4,23 @@ PalGates homebridge plugin
 This plugin enables connection between Pal Gate App Controled systems and Apple HomeKit.
 Before installing the homebridge plugin you must extract the device ID to recieve a token.
 
-# Extracting device ID and token
+# Extract device ID and Token
+
+## Extracting device ID and token from pi/linux/mac/windows
 *Please note #1:* this tool was tested on MAC but it should work on any distribution.
 
 *Please note #2:* Tool was written in Python 3.x, please make sure you run it with Python 3.x.
 
-*Please note #3:* Make sure requests module is install in you venv/system*
+*Please note #3:* Make sure requests module is install in you venv/system (pip install requests)*
 
 From shell run:
 `python extract_token.py` and follow on-screen instructions.
+
+## Extracting device ID and Token from Homebridge
+- Open homebridge via browser and login.
+- Click on the three dots at the right side.
+- Click on "Terminal".
+- Once shell is opened type: `palgate_extract` and follow on-screen instructions.
 
 # Plugin-in configuration
 
