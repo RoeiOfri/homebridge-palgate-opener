@@ -87,4 +87,6 @@ Please use at your own risk and on your own responsibility.
 
 
 # Like my work? consider buying me a coffee ;)
+
 # https://www.buymeacoffee.com/roeio
+# https://paypal.me/roeio
