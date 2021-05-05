@@ -1,7 +1,7 @@
 {
   "name": "homebridge-palgate-opener",
   "description": "Homebridge plugin for PalGate app",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/RoeiOfri/homebridge-palgate-opener.git"
@@ -27,8 +27,21 @@
   "bugs": {
     "url": "https://github.com/RoeiOfri/homebridge-palgate-opener/issues"
   },
+  "bin": {
+    "palgate_extract": "./extraction_tool/extract_token.py"
+  },
   "homepage": "https://github.com/RoeiOfri/homebridge-palgate-opener#readme",
   "directories": {
     "lib": "lib"
-  }
+  },
+  "funding": [
+    {
+      "type": "paypal",
+      "url": "https://paypal.me/roeio"
+    },
+    {
+      "type": "kofi",
+      "url": "https://ko-fi.com/roeiofri"
+    }
+  ]
 }
