@@ -13,14 +13,49 @@ Before installing the homebridge plugin you must extract the device ID to reciev
 
 *Please note #3:* Make sure requests module is install in you venv/system (pip install requests)*
 
+
 From shell run:
 `python extract_token.py` and follow on-screen instructions.
+make sure you have `requests` module installed before running the tool, if you don't know 
+how to do that please [google it](https://letmegooglethat.com/?q=how+to+install+requests+module).
 
-## Extracting device ID and Token from Homebridge
+## Extracting device ID and Token from Homebridge Terminal
 - Open homebridge via browser and login.
 - Click on the three dots at the right side.
 - Click on "Terminal".
 - Once shell is opened type: `palgate_extract` and follow on-screen instructions.
+
+### Extraction tool output example:
+```
+--------------------------------------------------------------
+          This is the extracted information:
+       Please save it for HomeBridge config usage
+       Any issues? please open a ticket on github
+ https://github.com/RoeiOfri/homebridge-palgate-opener/issues
+
+--------------------------------------------------------------
+Disclaimer: this tool and the author are not responsible
+for any issues/damage etc that might occur due to usage
+of this plugin. this plugin was written for teaching purposes only.
+This tool and plugin are free and will always be free.
+If you love this plugin and this tool and want to show your appreciation
+please consider buying me a coffee :)
+
+Donate -> https://paypal.me/roeio
+Donate ->https://www.buymeacoffee.com/roeio
+-----------------------------------------------------------------
+ Info returns: {<gate address>: <gate_id>
+Info: [{'_id': '3G00000001', 'address': 'עזריאלי', Tel Aviv-Yafo, Israel'}, 
+       {'_id': '3G00000002', 'address': 'שרונה', Israel'}]
+        ^^^^^^^^^^^^^^^^^^    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+           Your gate ID              Gate location
+```
+In this example we have two gates:
+1. Gate ID: 3G00000001 located at 'עזריאלי', Tel Aviv-Yafo, Israel'.
+2. Gate ID: 3G00000002 located at 'שרונה', Israel'. 
+
+The address is for information purposes and is not needed.
+
 
 # Plugin-in configuration
 
@@ -48,7 +83,7 @@ From shell run:
         }
 ]
 ```
-# Explination
+# Explanation
 | key | Mandatory/Optional |Description |
 | --- | --- | --- |
 | `accessory` | Yes |Must be PalGateOpener |
@@ -58,7 +93,7 @@ From shell run:
 | `accessoryType`|No - Default usage: switch | switch/garageDoor* |
 ### Please note:
 1. The default accessoryType is set to `switch`, if using `garageDoor` HomeKit with location service to open the gate
-automaticlly when arriving home will have to be initiated by user via push notification and his approval for the automation to run.
+automatically when arriving home will have to be initiated by user via push notification and his approval for the automation to run.
 This is a security feature by Apple.
 If you wish to "bypass" it please set the `accessortyType` as `switch`.
 2. You CAN duplicate the accessory so you will have one button as GarageDoor button and you will have the button also in your Apple CarPlay and a switch for the automation operation (works great BTW :))
@@ -73,9 +108,11 @@ phone number (using the app) until you will re-sign to the Pal Gate app which wi
 
 # FAQ
 ### Can I control more than one Pal Gate barriers?
-Yes you can! just insert the block more than once with different name, token and deviceID and it should work just fine.
+Yes you can! just insert the block more than once with different name and with the same token and deviceID and it should work just fine.
 ### Will I still be able to use the PalGate app on my phone?
 No, if you reopen the app you will be asked to re-authorize therefore the token obtained via CLI will get revoked and HomeKit will not be able communicate with the gate any more.
+### Will I still be able to use voice-dial to open the gate?
+Yes you can, it has nothing to do with this plugin.
 ### I re-signed to PalGate app and now I can't control the gate via HomeKit, what do I do?
 Just re-run the tool, update the config file with the new token and you're good to go!
 
@@ -85,8 +122,6 @@ This plugin is self developed and is not related to Pal Gate Systems in any way.
 I'm not responsible for any damage and/or data loss and/or any security breach etc etc caused by using this plugin.
 Please use at your own risk and on your own responsibility.
 
-
 # Like my work? consider buying me a coffee ;)
-
-# https://www.buymeacoffee.com/roeio
-# https://paypal.me/roeio
+## https://paypal.me/roeio
+## https://www.buymeacoffee.com/roeio
