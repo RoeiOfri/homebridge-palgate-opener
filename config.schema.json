@@ -3,7 +3,7 @@
 	"pluginType": "accessory",
 	"singular": false,
 	"headerDisplay": "Gate Opener for homebridge for PalGate APP users",
-	"footerDisplay": "Created by @roeio, ",
+	"footerDisplay": "Created by @roeio",
 	"schema": {
 		"type": "object",
 		"properties": {
