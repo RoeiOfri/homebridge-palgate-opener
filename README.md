@@ -1,3 +1,10 @@
+# ATTENTION!!! #
+Currently there's an authentication issue with the plugin due to a change Pal has made 
+in the backend, new authentication flow is still under investigation!
+If you have an old token it might stop working soon or already did stop working.
+Currently there's no workaround.
+If you think you can contribute for a solution please open an Issue in my repo.
+
 # homebridge-palgate-opener
 PalGates homebridge plugin
 
