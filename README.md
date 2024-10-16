@@ -27,8 +27,10 @@ make sure you have `requests` module installed before running the tool, if you d
 how to do that please [google it](https://letmegooglethat.com/?q=how+to+install+requests+module).
 
 Via a container:
+```shell
 docker build . -t palgate-extract
 docker run -it --rm palgate-extract
+```
 
 ## Extracting device ID and Token from Homebridge Terminal
 - Open homebridge via browser and login.
