@@ -9,13 +9,25 @@
 		"properties": {
 			"deviceId": {
 				"title": "Gate ID",
-				"description": "Please use the extraction tool to extract the gate ID and paste it here",
+				"description": "You can find this in the PalGate app in the settings for the gate",
 				"type": "string",
 				"required": true
 			},
 			"token": {
 				"title": "Token",
-				"description": "Please use the extraction tool to extract the gate TOKEN and paste it here",
+				"description": "Use pylgate by DonutByte to get your token (https://github.com/DonutByte/pylgate/tree/main).",
+				"type": "string",
+				"required": true
+			},
+			"phoneNumber": {
+				"title": "Phone Number",
+				"description": "Put the 12 digit phone number for your account here (eg 972500000000",
+				"type": "string",
+				"required": true
+			},
+			"tokenType": {
+				"title": "Token Type",
+				"description": "Set to 1 for Primary or 2 for Secondary.",
 				"type": "string",
 				"required": true
 			},

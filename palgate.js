@@ -1,3 +1,5 @@
+const { generateToken } = require('./token_generator.js');
+
 module.exports = (api) => {
   api.registerAccessory('PalGateOpener', PalGateOpener);
 };
@@ -9,8 +11,13 @@ class PalGateOpener {
       this.log = log;
       this.config = config;
       this.api = api;
+
+      //this.session = session;
       this.deviceId = config['deviceId'];
       this.token = config['token'];
+      this.tokenType = parseInt(config['tokenType']);
+      this.phoneNumber = config['phoneNumber'];
+
       this.accessoryType = config['accessoryType'] || 'switch'
       this.name = config.name;
       this.accessoryType = this.accessoryType.toLowerCase()
@@ -19,6 +26,9 @@ class PalGateOpener {
       this.Service = this.api.hap.Service;
       this.Characteristic = this.api.hap.Characteristic;
       this.log.debug('PalGate Accessory Plugin Loaded');
+      this.log.debug("deviceID :", this.deviceId);
+      this.log.debug("token :", this.token);
+      this.log.debug("phoneNumber :", this.phoneNumber);
 
       // Verify accessory type meets supporting types.
       if (this.accessoryType != 'switch' && this.accessoryType != 'garagedoor') {
@@ -68,21 +78,66 @@ class PalGateOpener {
   }
 
    // Handle request to open/close door
-  handleTargetDoorStateSet(value, callback) {
-    if (value == this.api.hap.Characteristic.TargetDoorState.OPEN) {
-        var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
-        var xhr = new XMLHttpRequest();
-        xhr.open('get', this.httpAddress);
-        xhr.setRequestHeader('x-bt-user-token', this.token);
-        xhr.send();
-        this.log.debug('Gate opened');
-        this.service.setCharacteristic(this.Characteristic.CurrentDoorState, this.api.hap.Characteristic.CurrentDoorState.OPEN)
-    } else if (value == this.api.hap.Characteristic.CurrentDoorState.CLOSED) {
-        this.log.debug('Closing gate...')
-        this.service.setCharacteristic(this.Characteristic.CurrentDoorState, this.api.hap.Characteristic.CurrentDoorState.CLOSED);
+   handleTargetDoorStateSet(value, callback) {
+    this.log.debug("Checking values before generating token...");
+    this.log.debug("Token:", this.token);
+    this.log.debug("Phone Number:", this.phoneNumber);
+
+    if (!this.token || typeof this.token !== 'string' || !/^[0-9a-fA-F]{32}$/.test(this.token)) {
+        this.log.error("Error: Token is missing or invalid.");
+        return callback(new Error("Token is missing or invalid."));
     }
-    callback(null)
+
+    if (!this.phoneNumber || isNaN(parseInt(this.phoneNumber, 10)) || this.phoneNumber.length !== 12) {
+        this.log.error("Error: Phone number is missing or invalid.");
+        return callback(new Error("Phone number is missing or invalid."));
+    }
+
+    try {
+        var temporalToken = generateToken(Buffer.from(this.token, 'hex'), parseInt(this.phoneNumber, 10), this.tokenType);
+        this.log.debug("Generated temp token:", temporalToken);
+        if (value == this.api.hap.Characteristic.TargetDoorState.OPEN) {
+          var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
+          var xhr = new XMLHttpRequest();
+          xhr.open('get', this.httpAddress);
+          xhr.setRequestHeader('x-bt-token', temporalToken);
+          xhr.setRequestHeader("Accept", "*/*");
+          //xhr.setRequestHeader("Accept-Encoding", "gzip, deflate, br");
+          xhr.setRequestHeader("Accept-Language", "en-us");
+          //xhr.setRequestHeader("Connection", "keep-alive");
+          xhr.setRequestHeader("Content-Type", "application/json");
+          xhr.setRequestHeader("User-Agent", "okhttp/4.9.3");
+          xhr.onload = () => {
+            if (xhr.status >= 200 && xhr.status < 300) {
+                this.log.info("Gate opened successfully!")
+                this.log.debug("Response:", xhr.responseText);
+                this.service.setCharacteristic(this.Characteristic.CurrentDoorState, this.api.hap.Characteristic.CurrentDoorState.OPEN);
+            } else {
+                this.log.error(`Error opening gate: ${xhr.status} - ${xhr.responseText}`);
+            }
+            };
+
+            // ✅ Handle Errors
+            xhr.onerror = () => {
+                this.log.error("Request failed! Unable to reach the API.");
+            };
+          xhr.send();
+          this.log.debug('Gate opened');
+          this.service.setCharacteristic(this.Characteristic.CurrentDoorState, this.api.hap.Characteristic.CurrentDoorState.OPEN);
+      } else if (value == this.api.hap.Characteristic.CurrentDoorState.CLOSED) {
+          this.log.debug('Closing gate...');
+          this.service.setCharacteristic(this.Characteristic.CurrentDoorState, this.api.hap.Characteristic.CurrentDoorState.CLOSED);
+      }
+  
+      callback(null);
+  
+    } catch (error) {
+        this.log.error("Error generating token:", error);
+        return callback(error);
+    }
   }
+
+   
 
   getOnHandler(callback) {
       this.log.debug('Getting switch state');
