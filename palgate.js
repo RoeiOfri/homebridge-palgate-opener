@@ -87,7 +87,7 @@ class PalGateOpener {
         return callback(new Error("Token is missing or invalid."));
     }
 
-    if (!this.phoneNumber || isNaN(parseInt(this.phoneNumber, 10)) || this.phoneNumber.length !== 12) {
+    if (!this.phoneNumber || isNaN(parseInt(this.phoneNumber, 10))) {
         this.log.error("Error: Phone number is missing or invalid.");
         return callback(new Error("Phone number is missing or invalid."));
     }
