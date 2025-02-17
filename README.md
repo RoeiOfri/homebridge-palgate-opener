@@ -4,9 +4,8 @@ This plugin has now been updated to work with the newest token and API flow for 
 Currently the plugin only supports Garage Door mode.
 
 # homebridge-palgate-opener
-PalGates homebridge plugin
-
 This plugin enables connection between Pal Gate App Controled systems and Apple HomeKit.
+
 Before installing the homebridge plugin you must obtain the following info:
 - Device ID: Obtained from the app. Go to Gate > Settings.
 - Phone Number: This is the phone number of your account beginning with the country code and should be 12 digits long (eg 972000000000)
