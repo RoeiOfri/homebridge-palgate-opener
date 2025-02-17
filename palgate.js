@@ -102,9 +102,7 @@ class PalGateOpener {
           xhr.open('get', this.httpAddress);
           xhr.setRequestHeader('x-bt-token', temporalToken);
           xhr.setRequestHeader("Accept", "*/*");
-          //xhr.setRequestHeader("Accept-Encoding", "gzip, deflate, br");
           xhr.setRequestHeader("Accept-Language", "en-us");
-          //xhr.setRequestHeader("Connection", "keep-alive");
           xhr.setRequestHeader("Content-Type", "application/json");
           xhr.setRequestHeader("User-Agent", "okhttp/4.9.3");
           xhr.onload = () => {
@@ -115,12 +113,10 @@ class PalGateOpener {
             } else {
                 this.log.error(`Error opening gate: ${xhr.status} - ${xhr.responseText}`);
             }
-            };
-
-            // ✅ Handle Errors
-            xhr.onerror = () => {
+          };
+          xhr.onerror = () => {
                 this.log.error("Request failed! Unable to reach the API.");
-            };
+          };
           xhr.send();
           this.log.debug('Gate opened');
           this.service.setCharacteristic(this.Characteristic.CurrentDoorState, this.api.hap.Characteristic.CurrentDoorState.OPEN);
