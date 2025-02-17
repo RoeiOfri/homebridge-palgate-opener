@@ -41,9 +41,9 @@ const S_BOX = [
     0x9b, 0x1e, 0x87, 0xe9, 0xce, 0x55, 0x28, 0xdf,
     0x8c, 0xa1, 0x89, 0x0d, 0xbf, 0xe6, 0x42, 0x68,
     0x41, 0x99, 0x2d, 0x0f, 0xb0, 0x54, 0xbb, 0x16
-  ];
-  
-  const INVERSE_S_BOX = [
+];
+
+const INVERSE_S_BOX = [
     0x52, 0x09, 0x6a, 0xd5, 0x30, 0x36, 0xa5, 0x38,
     0xbf, 0x40, 0xa3, 0x9e, 0x81, 0xf3, 0xd7, 0xfb,
     0x7c, 0xe3, 0x39, 0x82, 0x9b, 0x2f, 0xff, 0x87,
@@ -76,261 +76,261 @@ const S_BOX = [
     0xc8, 0xeb, 0xbb, 0x3c, 0x83, 0x53, 0x99, 0x61,
     0x17, 0x2b, 0x04, 0x7e, 0xba, 0x77, 0xd6, 0x26,
     0xe1, 0x69, 0x14, 0x63, 0x55, 0x21, 0x0c, 0x7d
-  ];
-  
-  const RCON = [
+];
+
+const RCON = [
     0x01, 0x02, 0x04, 0x08, 0x10,
     0x20, 0x40, 0x80, 0x1b, 0x36
-  ];
-  
-  const BLOCK_SIZE = 16;
-  const KEY_SIZE = 16;
-  
-  // PalGate-specific constants
-  const T_C_KEY = new Uint8Array([
+];
+
+const BLOCK_SIZE = 16;
+const KEY_SIZE = 16;
+
+// PalGate-specific constants
+const T_C_KEY = new Uint8Array([
     0xfa, 0xd3, 0x25, 0x72, 0x81, 0x29,
     0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
     0x3a, 0xb4, 0x5a, 0x65
-  ]);
-  
-  const TOKEN_SIZE = 23; // In bytes
-  const TIMESTAMP_OFFSET = 2;
-  
-  // Token types "enum"
-  const TokenType = {
+]);
+
+const TOKEN_SIZE = 23; // In bytes
+const TIMESTAMP_OFFSET = 2;
+
+// Token types "enum"
+const TokenType = {
     SMS: 0,       // Handle SMS
     PRIMARY: 1,   // Linked Device - first
     SECONDARY: 2  // Linked Device - second
-  };
-  
-  // --- Utility Functions ---
-  
-  // Multiply a byte by 2 in GF(2^8)
-  function galoisMul2(value) {
+};
+
+// --- Utility Functions ---
+
+// Multiply a byte by 2 in GF(2^8)
+function galoisMul2(value) {
     return (value & 0x80) ? (((value << 1) ^ 0x1b) & 0xff) : ((value << 1) & 0xff);
-  }
-  
-  // Convert a Uint8Array to a hexadecimal string
-  function bytesToHex(bytes) {
+}
+
+// Convert a Uint8Array to a hexadecimal string
+function bytesToHex(bytes) {
     return Array.from(bytes)
-      .map(b => b.toString(16).padStart(2, '0'))
-      .join('');
-  }
-  
-  // Pack a number into an 8-byte big-endian Uint8Array
-  function packUint64BE(num) {
+        .map(b => b.toString(16).padStart(2, '0'))
+        .join('');
+}
+
+// Pack a number into an 8-byte big-endian Uint8Array
+function packUint64BE(num) {
     const result = new Uint8Array(8);
     let big = BigInt(num);
     for (let i = 7; i >= 0; i--) {
-      result[i] = Number(big & 0xffn);
-      big >>= 8n;
+        result[i] = Number(big & 0xffn);
+        big >>= 8n;
     }
     return result;
-  }
-  
-  // --- AES Encryption/Decryption Functions ---
-  
-  // Encrypts or decrypts a 16-byte state using a 16-byte key.
-  // stateBytes and keyBytes are expected to be Uint8Array(16).
-  function aesEncryptDecrypt(stateBytes, keyBytes, isEncrypt) {
+}
+
+// --- AES Encryption/Decryption Functions ---
+
+// Encrypts or decrypts a 16-byte state using a 16-byte key.
+// stateBytes and keyBytes are expected to be Uint8Array(16).
+function aesEncryptDecrypt(stateBytes, keyBytes, isEncrypt) {
     if (stateBytes.length !== BLOCK_SIZE || keyBytes.length !== KEY_SIZE) {
-      throw new Error("State and/or key are not 16 bytes");
+        throw new Error("State and/or key are not 16 bytes");
     }
     // Work on copies so as not to modify the originals
     const state = new Uint8Array(stateBytes);
     const key = new Uint8Array(keyBytes);
     _aesEncDec(state, key, isEncrypt);
     return state;
-  }
-  
-  // The internal AES encryption/decryption routine.
-  // It directly mutates the state and key arrays.
-  function _aesEncDec(state, key, encrypt) {
+}
+
+// The internal AES encryption/decryption routine.
+// It directly mutates the state and key arrays.
+function _aesEncDec(state, key, encrypt) {
     // If encrypting, perform initial key schedule and add round key.
     if (encrypt) {
-      for (let rnd = 0; rnd < 10; rnd++) {
-        key[0] = (S_BOX[key[13]] ^ key[0] ^ RCON[rnd]) & 0xff;
-        key[1] = (S_BOX[key[14]] ^ key[1]) & 0xff;
-        key[2] = (S_BOX[key[15]] ^ key[2]) & 0xff;
-        key[3] = (S_BOX[key[12]] ^ key[3]) & 0xff;
-        for (let i = 4; i < KEY_SIZE; i++) {
-          key[i] = (key[i] ^ key[i - 4]) & 0xff;
+        for (let rnd = 0; rnd < 10; rnd++) {
+            key[0] = (S_BOX[key[13]] ^ key[0] ^ RCON[rnd]) & 0xff;
+            key[1] = (S_BOX[key[14]] ^ key[1]) & 0xff;
+            key[2] = (S_BOX[key[15]] ^ key[2]) & 0xff;
+            key[3] = (S_BOX[key[12]] ^ key[3]) & 0xff;
+            for (let i = 4; i < KEY_SIZE; i++) {
+                key[i] = (key[i] ^ key[i - 4]) & 0xff;
+            }
         }
-      }
-      for (let i = 0; i < BLOCK_SIZE; i++) {
-        state[i] = (state[i] ^ key[i]) & 0xff;
-      }
+        for (let i = 0; i < BLOCK_SIZE; i++) {
+            state[i] = (state[i] ^ key[i]) & 0xff;
+        }
     }
-  
+
     // Main round loop.
     for (let rnd = 0; rnd < 10; rnd++) {
-      if (encrypt) {
-        // For encryption: update the key schedule (reverse order for half rounds).
-        for (let i = KEY_SIZE - 1; i > 3; i--) {
-          key[i] = (key[i] ^ key[i - 4]) & 0xff;
+        if (encrypt) {
+            // For encryption: update the key schedule (reverse order for half rounds).
+            for (let i = KEY_SIZE - 1; i > 3; i--) {
+                key[i] = (key[i] ^ key[i - 4]) & 0xff;
+            }
+            key[0] = (S_BOX[key[13]] ^ key[0] ^ RCON[9 - rnd]) & 0xff;
+            key[1] = (S_BOX[key[14]] ^ key[1]) & 0xff;
+            key[2] = (S_BOX[key[15]] ^ key[2]) & 0xff;
+            key[3] = (S_BOX[key[12]] ^ key[3]) & 0xff;
+        } else {
+            // For decryption: first substitute using S_BOX with XOR of key.
+            for (let i = 0; i < BLOCK_SIZE; i++) {
+                state[i] = S_BOX[state[i] ^ key[i]];
+            }
+            // Perform row shifting as per the Python logic.
+            // Shift row 1 (indices 1,5,9,13)
+            let buf1 = state[1];
+            state[1] = state[5];
+            state[5] = state[9];
+            state[9] = state[13];
+            state[13] = buf1;
+
+            // Swap row 2 (indices 2,6,10,14)
+            let tmp1 = state[2];
+            let tmp2 = state[6];
+            state[2] = state[10];
+            state[6] = state[14];
+            state[10] = tmp1;
+            state[14] = tmp2;
+
+            // Corrected row swap for row 3 (indices 3,7,11,15)
+            let tmp = state[15];
+            state[15] = state[11];
+            state[11] = state[7];
+            state[7] = state[3];
+            state[3] = tmp;
         }
-        key[0] = (S_BOX[key[13]] ^ key[0] ^ RCON[9 - rnd]) & 0xff;
-        key[1] = (S_BOX[key[14]] ^ key[1]) & 0xff;
-        key[2] = (S_BOX[key[15]] ^ key[2]) & 0xff;
-        key[3] = (S_BOX[key[12]] ^ key[3]) & 0xff;
-      } else {
-        // For decryption: first substitute using S_BOX with XOR of key.
-        for (let i = 0; i < BLOCK_SIZE; i++) {
-          state[i] = S_BOX[state[i] ^ key[i]];
+
+        // Mid-round mixing, applied conditionally.
+        if ((rnd > 0 && encrypt) || (!encrypt && rnd < 9)) {
+            for (let i = 0; i < 4; i++) {
+                let base = i * 4;
+                if (encrypt) {
+                    const buf1 = galoisMul2(galoisMul2(state[base] ^ state[base + 2]));
+                    const buf2 = galoisMul2(galoisMul2(state[base + 1] ^ state[base + 3]));
+                    state[base] = (state[base] ^ buf1) & 0xff;
+                    state[base + 1] = (state[base + 1] ^ buf2) & 0xff;
+                    state[base + 2] = (state[base + 2] ^ buf1) & 0xff;
+                    state[base + 3] = (state[base + 3] ^ buf2) & 0xff;
+                }
+                const mix = state[base] ^ state[base + 1] ^ state[base + 2] ^ state[base + 3];
+                const first = state[base];
+                let buf3 = galoisMul2(state[base] ^ state[base + 1]);
+                state[base] = (state[base] ^ buf3 ^ mix) & 0xff;
+                buf3 = galoisMul2(state[base + 1] ^ state[base + 2]);
+                state[base + 1] = (state[base + 1] ^ buf3 ^ mix) & 0xff;
+                buf3 = galoisMul2(state[base + 2] ^ state[base + 3]);
+                state[base + 2] = (state[base + 2] ^ buf3 ^ mix) & 0xff;
+                buf3 = galoisMul2(state[base + 3] ^ first);
+                state[base + 3] = (state[base + 3] ^ buf3 ^ mix) & 0xff;
+            }
         }
-        // Perform row shifting as per the Python logic.
-        // Shift row 1 (indices 1,5,9,13)
-        let buf1 = state[1];
-        state[1] = state[5];
-        state[5] = state[9];
-        state[9] = state[13];
-        state[13] = buf1;
-  
-        // Swap row 2 (indices 2,6,10,14)
-        let tmp1 = state[2];
-        let tmp2 = state[6];
-        state[2] = state[10];
-        state[6] = state[14];
-        state[10] = tmp1;
-        state[14] = tmp2;
-  
-        // Corrected row swap for row 3 (indices 3,7,11,15)
-        let tmp = state[15];
-        state[15] = state[11];
-        state[11] = state[7];
-        state[7] = state[3];
-        state[3] = tmp;
-      }
-  
-      // Mid-round mixing, applied conditionally.
-      if ((rnd > 0 && encrypt) || (!encrypt && rnd < 9)) {
-        for (let i = 0; i < 4; i++) {
-          let base = i * 4;
-          if (encrypt) {
-            const buf1 = galoisMul2(galoisMul2(state[base] ^ state[base + 2]));
-            const buf2 = galoisMul2(galoisMul2(state[base + 1] ^ state[base + 3]));
-            state[base] = (state[base] ^ buf1) & 0xff;
-            state[base + 1] = (state[base + 1] ^ buf2) & 0xff;
-            state[base + 2] = (state[base + 2] ^ buf1) & 0xff;
-            state[base + 3] = (state[base + 3] ^ buf2) & 0xff;
-          }
-          const mix = state[base] ^ state[base + 1] ^ state[base + 2] ^ state[base + 3];
-          const first = state[base];
-          let buf3 = galoisMul2(state[base] ^ state[base + 1]);
-          state[base] = (state[base] ^ buf3 ^ mix) & 0xff;
-          buf3 = galoisMul2(state[base + 1] ^ state[base + 2]);
-          state[base + 1] = (state[base + 1] ^ buf3 ^ mix) & 0xff;
-          buf3 = galoisMul2(state[base + 2] ^ state[base + 3]);
-          state[base + 2] = (state[base + 2] ^ buf3 ^ mix) & 0xff;
-          buf3 = galoisMul2(state[base + 3] ^ first);
-          state[base + 3] = (state[base + 3] ^ buf3 ^ mix) & 0xff;
+
+        // Final round adjustments.
+        if (encrypt) {
+            // Row swapping for encryption.
+            let buf1 = state[13];
+            state[13] = state[9];
+            state[9] = state[5];
+            state[5] = state[1];
+            state[1] = buf1;
+
+            let tmp1 = state[10];
+            let tmp2 = state[14];
+            state[10] = state[2];
+            state[14] = state[6];
+            state[2] = tmp1;
+            state[6] = tmp2;
+
+            let tmp = state[3];
+            state[3] = state[7];
+            state[7] = state[11];
+            state[11] = state[15];
+            state[15] = tmp;
+
+            // Final substitution using INVERSE_S_BOX and XOR with key.
+            for (let i = 0; i < BLOCK_SIZE; i++) {
+                state[i] = (INVERSE_S_BOX[state[i]] ^ key[i]) & 0xff;
+            }
+        } else {
+            // Update key schedule for decryption.
+            key[0] = (S_BOX[key[13]] ^ key[0] ^ RCON[rnd]) & 0xff;
+            key[1] = (S_BOX[key[14]] ^ key[1]) & 0xff;
+            key[2] = (S_BOX[key[15]] ^ key[2]) & 0xff;
+            key[3] = (S_BOX[key[12]] ^ key[3]) & 0xff;
+            for (let i = 4; i < KEY_SIZE; i++) {
+                key[i] = (key[i] ^ key[i - 4]) & 0xff;
+            }
         }
-      }
-  
-      // Final round adjustments.
-      if (encrypt) {
-        // Row swapping for encryption.
-        let buf1 = state[13];
-        state[13] = state[9];
-        state[9] = state[5];
-        state[5] = state[1];
-        state[1] = buf1;
-  
-        let tmp1 = state[10];
-        let tmp2 = state[14];
-        state[10] = state[2];
-        state[14] = state[6];
-        state[2] = tmp1;
-        state[6] = tmp2;
-  
-        let tmp = state[3];
-        state[3] = state[7];
-        state[7] = state[11];
-        state[11] = state[15];
-        state[15] = tmp;
-  
-        // Final substitution using INVERSE_S_BOX and XOR with key.
-        for (let i = 0; i < BLOCK_SIZE; i++) {
-          state[i] = (INVERSE_S_BOX[state[i]] ^ key[i]) & 0xff;
-        }
-      } else {
-        // Update key schedule for decryption.
-        key[0] = (S_BOX[key[13]] ^ key[0] ^ RCON[rnd]) & 0xff;
-        key[1] = (S_BOX[key[14]] ^ key[1]) & 0xff;
-        key[2] = (S_BOX[key[15]] ^ key[2]) & 0xff;
-        key[3] = (S_BOX[key[12]] ^ key[3]) & 0xff;
-        for (let i = 4; i < KEY_SIZE; i++) {
-          key[i] = (key[i] ^ key[i - 4]) & 0xff;
-        }
-      }
     }
-  
+
     // Final key addition for decryption.
     if (!encrypt) {
-      for (let i = 0; i < BLOCK_SIZE; i++) {
-        state[i] = (state[i] ^ key[i]) & 0xff;
-      }
+        for (let i = 0; i < BLOCK_SIZE; i++) {
+            state[i] = (state[i] ^ key[i]) & 0xff;
+        }
     }
-  }
-  
-  // --- Token Generation Functions ---
-  
-  /**
-   * Generates a derived token for the PalGate API.
-   *
-   * @param {Uint8Array} sessionToken - A 16-byte base token (from SMS or device linking).
-   * @param {number} phoneNumber - The associated phone number.
-   * @param {number} tokenType - Either TokenType.PRIMARY or TokenType.SECONDARY.
-   * @param {number|null} [timestampMs=null] - Seconds since the Epoch (default: current time).
-   * @param {number} [timestampOffset=TIMESTAMP_OFFSET] - Offset added to the timestamp.
-   * @returns {string} The derived token as an uppercase hex string.
-   */
-  function generateToken(sessionToken, phoneNumber, tokenType, timestampMs = null, timestampOffset = TIMESTAMP_OFFSET) {
+}
+
+// --- Token Generation Functions ---
+
+/**
+ * Generates a derived token for the PalGate API.
+ *
+ * @param {Uint8Array} sessionToken - A 16-byte base token (from SMS or device linking).
+ * @param {number} phoneNumber - The associated phone number.
+ * @param {number} tokenType - Either TokenType.PRIMARY or TokenType.SECONDARY.
+ * @param {number|null} [timestampMs=null] - Seconds since the Epoch (default: current time).
+ * @param {number} [timestampOffset=TIMESTAMP_OFFSET] - Offset added to the timestamp.
+ * @returns {string} The derived token as an uppercase hex string.
+ */
+function generateToken(sessionToken, phoneNumber, tokenType, timestampMs = null, timestampOffset = TIMESTAMP_OFFSET) {
     if (sessionToken.length !== BLOCK_SIZE) {
-      throw new Error('Invalid session token');
+        throw new Error('Invalid session token');
     }
     if (timestampMs === null) {
-      timestampMs = Math.floor(Date.now() / 1000);
+        timestampMs = Math.floor(Date.now() / 1000);
     }
-  
+
     const step2Key = _step1(sessionToken, phoneNumber);
     const step2Result = _step2(step2Key, timestampMs, timestampOffset);
-  
+
     const result = new Uint8Array(TOKEN_SIZE);
     if (tokenType === TokenType.SMS) {
-      result[0] = 0x01;
+        result[0] = 0x01;
     } else if (tokenType === TokenType.PRIMARY) {
-      result[0] = 0x11;
+        result[0] = 0x11;
     } else if (tokenType === TokenType.SECONDARY) {
-      result[0] = 0x21;
+        result[0] = 0x21;
     } else {
-      throw new Error(`unknown token type: ${tokenType}`);
+        throw new Error(`unknown token type: ${tokenType}`);
     }
-  
+
     // Use the 8-byte big-endian representation of the phone number
     // and take bytes 2 to 7.
     const phonePacked = packUint64BE(phoneNumber);
     // phonePacked is an 8-byte Uint8Array; slice(2, 8) gives 6 bytes.
     result.set(phonePacked.slice(2, 8), 1);
-  
+
     result.set(step2Result, 7);
-  
+
     return bytesToHex(result).toUpperCase();
-  }
-  
-  // Internal step 1: derive a key based on sessionToken and phoneNumber.
-  function _step1(sessionToken, phoneNumber) {
+}
+
+// Internal step 1: derive a key based on sessionToken and phoneNumber.
+function _step1(sessionToken, phoneNumber) {
     const key = new Uint8Array(T_C_KEY); // copy T_C_KEY
     const phonePacked = packUint64BE(phoneNumber);
     // Replace key[6..11] with phonePacked[2..7]
     for (let i = 0; i < 6; i++) {
-      key[6 + i] = phonePacked[2 + i];
+        key[6 + i] = phonePacked[2 + i];
     }
     return aesEncryptDecrypt(sessionToken, key, true);
-  }
-  
-  // Internal step 2: derive a token part using a timestamp.
-  function _step2(resultFromStep1, timestampMs, timestampOffset) {
+}
+
+// Internal step 2: derive a token part using a timestamp.
+function _step2(resultFromStep1, timestampMs, timestampOffset) {
     const nextState = new Uint8Array(BLOCK_SIZE);
     // Set nextState[1..2] to the little-endian representation of 0xa0a.
     const val16 = 0xa0a;
@@ -343,18 +343,18 @@ const S_BOX = [
     nextState[12] = (val32 >> 8) & 0xff;
     nextState[13] = val32 & 0xff;
     return aesEncryptDecrypt(nextState, resultFromStep1, false);
-  }
-  
-  // --- Example usage ---
-  function hexStringToUint8Array(hexStr) {
+}
+
+// --- Example usage ---
+function hexStringToUint8Array(hexStr) {
     if (hexStr.length % 2 !== 0) {
-      throw new Error("Invalid hex string");
+        throw new Error("Invalid hex string");
     }
     const arr = new Uint8Array(hexStr.length / 2);
     for (let i = 0; i < hexStr.length; i += 2) {
-      arr[i / 2] = parseInt(hexStr.substr(i, 2), 16);
+        arr[i / 2] = parseInt(hexStr.substr(i, 2), 16);
     }
     return arr;
-  }
-  
-  module.exports = { generateToken };
+}
+
+module.exports = { generateToken };
