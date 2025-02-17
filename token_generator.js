@@ -93,14 +93,14 @@ const S_BOX = [
     0x3a, 0xb4, 0x5a, 0x65
   ]);
   
-  const PHONE_NUMBER_DIGIT_LENGTH = 12;
   const TOKEN_SIZE = 23; // In bytes
   const TIMESTAMP_OFFSET = 2;
   
   // Token types "enum"
   const TokenType = {
-    PRIMARY: 1,   // Token logged in via SMS
-    SECONDARY: 2  // Token logged in via QR code
+    SMS: 0,       // Handle SMS
+    PRIMARY: 1,   // Linked Device - first
+    SECONDARY: 2  // Linked Device - second
   };
   
   // --- Utility Functions ---
@@ -279,7 +279,7 @@ const S_BOX = [
    * Generates a derived token for the PalGate API.
    *
    * @param {Uint8Array} sessionToken - A 16-byte base token (from SMS or device linking).
-   * @param {number} phoneNumber - The associated phone number (must be 12 digits).
+   * @param {number} phoneNumber - The associated phone number.
    * @param {number} tokenType - Either TokenType.PRIMARY or TokenType.SECONDARY.
    * @param {number|null} [timestampMs=null] - Seconds since the Epoch (default: current time).
    * @param {number} [timestampOffset=TIMESTAMP_OFFSET] - Offset added to the timestamp.
@@ -289,9 +289,6 @@ const S_BOX = [
     if (sessionToken.length !== BLOCK_SIZE) {
       throw new Error('Invalid session token');
     }
-    if (String(phoneNumber).length !== PHONE_NUMBER_DIGIT_LENGTH) {
-      throw new Error(`phone number is not ${PHONE_NUMBER_DIGIT_LENGTH} digits`);
-    }
     if (timestampMs === null) {
       timestampMs = Math.floor(Date.now() / 1000);
     }
@@ -300,7 +297,9 @@ const S_BOX = [
     const step2Result = _step2(step2Key, timestampMs, timestampOffset);
   
     const result = new Uint8Array(TOKEN_SIZE);
-    if (tokenType === TokenType.PRIMARY) {
+    if (tokenType === TokenType.SMS) {
+      result[0] = 0x01;
+    } else if (tokenType === TokenType.PRIMARY) {
       result[0] = 0x11;
     } else if (tokenType === TokenType.SECONDARY) {
       result[0] = 0x21;
