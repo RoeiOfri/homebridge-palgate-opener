@@ -3,8 +3,6 @@ This plugin has now been updated to work with the newest token and API flow for 
 
 Credit to [@DonutByte](https://github.com/DonutByte) for making this possible. Translation from Python to Javascript was implemented by [@Knilo](https://github.com/Knilo).
 
-Currently the plugin only supports Garage Door mode.
-
 # homebridge-palgate-opener
 This plugin enables connection between Pal Gate App Controled systems and Apple HomeKit.
 
