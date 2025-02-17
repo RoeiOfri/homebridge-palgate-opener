@@ -10,7 +10,7 @@ Before installing the homebridge plugin you must obtain the following info:
 - Device ID: Obtained from the app. Go to Gate > Settings.
 - Phone Number: This is the phone number of your account beginning with the country code and should be 12 digits long (eg 972000000000)
 - Session Token: Extracted using pylgate (explained below)
-- Token Type: 1 (Primary) or 2 (Secondary) and can be found using pylgate (explained below)
+- Token Type: 0 (SMS), 1 (Primary) or 2 (Secondary) and can be found using pylgate (explained below)
 
 # Use pylgate to extract the Session Token and Token Type
 @DonutByte released a Python tool for extracting the Session Token and Token Type.
