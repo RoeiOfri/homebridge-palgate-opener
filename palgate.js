@@ -65,13 +65,13 @@ class PalGateOpener {
   }
 
   handleCurrentDoorStateGet(callback) {
-    this.log.info('Triggered GET Current DoorState');
+    this.log.debug('Triggered GET Current DoorState');
     var currentValue = this.api.hap.Characteristic.CurrentDoorState.CLOSED
     callback(null, currentValue);
   }
 
   handleTargetDoorStateGet(callback) {
-    this.log.info('Triggered GET Target DoorState');
+    this.log.debug('Triggered GET Target DoorState');
     var targetDoorState = this.api.hap.Characteristic.CurrentDoorState.CLOSED
     callback(null, targetDoorState);
   }
