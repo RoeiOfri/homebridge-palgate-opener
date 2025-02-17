@@ -2,7 +2,9 @@
 AES 128-bit encryption and decryption and PalGate token generation
 License: GNU General Public License v3 or later
 
-  It is intended for internal use and may not be fully optimized.
+This is intended for personal use only.
+
+This is a translation of https://github.com/DonutByte/pylgate/tree/main/pylgate into Javascript.
 */
 
 // --- Constants ---
