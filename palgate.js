@@ -15,7 +15,7 @@ class PalGateOpener {
       //this.session = session;
       this.deviceId = config['deviceId'];
       this.token = config['token'];
-      this.tokenType = parseInt(config['tokenType']);
+      this.tokenType = config['tokenType'];
       this.phoneNumber = config['phoneNumber'];
 
       this.accessoryType = config['accessoryType'] || 'switch'
