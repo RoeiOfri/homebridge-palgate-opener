@@ -15,7 +15,7 @@
 			},
 			"token": {
 				"title": "Token",
-				"description": "Use pylgate by DonutByte to get your token (https://github.com/DonutByte/pylgate/tree/main).",
+				"description": "Use pylgate by DonutByte to get your token (https://github.com/DonutByte/pylgate/tree/main), or use the DockerFile (see: https://github.com/RoeiOfri/homebridge-palgate-opener/blob/master/README.md)",
 				"type": "string",
 				"required": true
 			},
